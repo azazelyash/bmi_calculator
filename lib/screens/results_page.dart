@@ -1,12 +1,18 @@
 import 'package:bmi_calculator/constants.dart';
-import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/components/reusable_card.dart';
 import 'package:flutter/material.dart';
-import 'constants.dart';
-import 'reusable_card.dart';
-import 'bottom_button.dart';
-import 'input_page.dart';
+import 'package:bmi_calculator/components/bottom_button.dart';
 
 class Results extends StatelessWidget {
+  Results(
+      {@required this.bmiResult,
+      @required this.resultText,
+      @required this.interpretation});
+
+  final String? bmiResult;
+  final String? resultText;
+  final String? interpretation;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +25,8 @@ class Results extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Container(
+              padding: EdgeInsets.all(15.0),
+              alignment: Alignment.bottomLeft,
               child: Text(
                 'Your Result!',
                 style: kTitleTextStyle,
@@ -34,18 +42,18 @@ class Results extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Normal',
+                    resultText!.toUpperCase(),
                     style: kResultTextStyle,
                   ),
                   Text(
-                    '18.3',
+                    bmiResult!,
                     style: kBMITextStyle,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 0, horizontal: 8.0),
                     child: Text(
-                      'Your BMI is quite low, you should eat more!',
+                      interpretation!,
                       style: kResultBodyTextStyle,
                       textAlign: TextAlign.center,
                     ),
@@ -55,17 +63,11 @@ class Results extends StatelessWidget {
             ),
           ),
           BottomButton(
-              buttonTitle: 'Recalculate',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return InputPage();
-                    },
-                  ),
-                );
-              })
+            buttonTitle: 'Recalculate',
+            onTap: () {
+              Navigator.pop(context);
+            },
+          )
         ],
       ),
     );
